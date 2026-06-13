@@ -5,6 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Deomic Technologies — Engineering the Future</title>
 <meta name="description" content="Deomic Technologies — an elite software engineering studio building premium web, mobile, AI and cloud products for ambitious companies." />
+
+<!-- ═══════════════════════════════════════════════
+     SECURITY HEADERS (meta fallback layer)
+     Primary enforcement: vercel.json / _headers
+     ═══════════════════════════════════════════════ -->
+
+<!-- Prevent MIME-type sniffing -->
+<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+
+<!-- Block iframe embedding (clickjacking protection) -->
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
+
+<!-- Control referrer information sent to third parties -->
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+
+<!-- Force HTTPS for 2 years, include subdomains -->
+<meta http-equiv="Strict-Transport-Security" content="max-age=63072000; includeSubDomains; preload" />
+
+<!-- Content Security Policy — whitelist only trusted sources -->
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+  font-src 'self' https://fonts.gstatic.com;
+  img-src 'self' data: blob:;
+  connect-src 'self';
+  object-src 'none';
+  base-uri 'self';
+  form-action 'self';
+  frame-ancestors 'self';
+  upgrade-insecure-requests;
+" />
+
+<!-- Restrict browser feature access -->
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">

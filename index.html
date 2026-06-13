@@ -1,722 +1,2004 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Deomic Technologies — Engineering the Future</title>
-<meta name="description" content="Deomic Technologies — an elite software engineering studio building premium web, mobile, AI and cloud products for ambitious companies." />
 
-<!-- ═══════════════════════════════════════════════
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deomic Technologies — Engineering the Future</title>
+  <meta name="description"
+    content="Deomic Technologies — an elite software engineering studio building premium web, mobile, AI and cloud products for ambitious companies." />
+
+  <!-- ═══════════════════════════════════════════════
      SECURITY HEADERS (meta fallback layer)
      Primary enforcement: vercel.json / _headers
      ═══════════════════════════════════════════════ -->
 
-<!-- Prevent MIME-type sniffing -->
-<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <!-- Control referrer information sent to third parties -->
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
 
-<!-- Block iframe embedding (clickjacking protection) -->
-<meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
-
-<!-- Control referrer information sent to third parties -->
-<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
-
-<!-- Force HTTPS for 2 years, include subdomains -->
-<meta http-equiv="Strict-Transport-Security" content="max-age=63072000; includeSubDomains; preload" />
-
-<!-- Content Security Policy — whitelist only trusted sources -->
-<meta http-equiv="Content-Security-Policy" content="
+  <!-- Content Security Policy — whitelist only trusted sources -->
+  <meta http-equiv="Content-Security-Policy" content="
   default-src 'self';
   script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   font-src 'self' https://fonts.gstatic.com;
   img-src 'self' data: blob:;
-  connect-src 'self';
+  connect-src 'self' https://api.web3forms.com;
   object-src 'none';
   base-uri 'self';
   form-action 'self';
-  frame-ancestors 'self';
   upgrade-insecure-requests;
 " />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    :root {
+      --bg: #05060a;
+      --bg-soft: #0a0c14;
+      --ink: #f4f5fa;
+      --ink-dim: #8b8fa3;
+      --ink-faint: #52566b;
+      --violet: #6a0dff;
+      --violet-bright: #8b3dff;
+      --violet-glow: rgba(106, 13, 255, .55);
+      --line: rgba(255, 255, 255, .07);
+      --glass: rgba(255, 255, 255, .025);
+      --mono: 'Space Mono', monospace;
+      --sans: 'Sora', sans-serif;
+    }
 
-<!-- Restrict browser feature access -->
-<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<style>
-:root{
-  --bg:#05060a;
-  --bg-soft:#0a0c14;
-  --ink:#f4f5fa;
-  --ink-dim:#8b8fa3;
-  --ink-faint:#52566b;
-  --violet:#6a0dff;
-  --violet-bright:#8b3dff;
-  --violet-glow:rgba(106,13,255,.55);
-  --line:rgba(255,255,255,.07);
-  --glass:rgba(255,255,255,.025);
-  --mono:'Space Mono',monospace;
-  --sans:'Sora',sans-serif;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  background:var(--bg);color:var(--ink);font-family:var(--sans);
-  -webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.5;
-  cursor:none;
-}
-body.light{
-  --bg:#f3f2f7;--bg-soft:#ffffff;--ink:#0a0b12;--ink-dim:#4a4e63;
-  --ink-faint:#9094aa;--line:rgba(0,0,0,.08);--glass:rgba(0,0,0,.02);
-}
-a{color:inherit;text-decoration:none}
-::selection{background:var(--violet);color:#fff}
-.no-cursor{cursor:none}
-@media(max-width:820px){body{cursor:auto}}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
 
-/* ---------- Custom cursor ---------- */
-.cursor,.cursor-dot{position:fixed;top:0;left:0;border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:difference}
-.cursor{width:34px;height:34px;border:1.5px solid #fff;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s}
-.cursor-dot{width:5px;height:5px;background:#fff;transform:translate(-50%,-50%)}
-.cursor.hover{width:60px;height:60px;background:rgba(255,255,255,.12);border-color:transparent}
-@media(max-width:820px){.cursor,.cursor-dot{display:none}}
+    html {
+      scroll-behavior: smooth
+    }
 
-/* ---------- Loader ---------- */
-#loader{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;transition:opacity .8s,visibility .8s}
-#loader.done{opacity:0;visibility:hidden}
-.load-mark{font-size:clamp(28px,6vw,54px);font-weight:800;letter-spacing:-2px;display:flex;align-items:center;gap:4px}
-.load-dot{width:.42em;height:.42em;border-radius:50%;background:var(--violet);box-shadow:0 0 30px var(--violet-glow);animation:pulse 1.1s ease-in-out infinite}
-@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.55);opacity:.5}}
-.load-bar{width:200px;height:2px;background:var(--line);position:relative;overflow:hidden;border-radius:2px}
-.load-bar i{position:absolute;inset:0;width:0;background:var(--violet);box-shadow:0 0 14px var(--violet-glow);transition:width .2s}
-.load-pct{font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:2px}
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      line-height: 1.5;
+      cursor: none;
+    }
 
-/* ---------- canvas bg ---------- */
-#scene{position:fixed;inset:0;z-index:0}
-.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.5;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");mix-blend-mode:overlay}
+    body.light {
+      --bg: #f3f2f7;
+      --bg-soft: #ffffff;
+      --ink: #0a0b12;
+      --ink-dim: #4a4e63;
+      --ink-faint: #9094aa;
+      --line: rgba(0, 0, 0, .08);
+      --glass: rgba(0, 0, 0, .02);
+    }
 
-/* ---------- nav ---------- */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px clamp(20px,5vw,64px);transition:all .4s}
-nav.scrolled{padding:14px clamp(20px,5vw,64px);background:color-mix(in srgb,var(--bg) 72%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
-.brand{display:flex;align-items:center;gap:7px;font-weight:800;font-size:21px;letter-spacing:-1px}
-.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--violet);box-shadow:0 0 16px var(--violet-glow);position:relative;top:1px}
-.nav-links{display:flex;gap:34px;font-size:13.5px;color:var(--ink-dim);font-weight:500}
-.nav-links a{position:relative;transition:color .25s}
-.nav-links a:after{content:'';position:absolute;left:0;bottom:-5px;width:0;height:1px;background:var(--violet);transition:width .3s}
-.nav-links a:hover{color:var(--ink)}.nav-links a:hover:after{width:100%}
-.nav-right{display:flex;align-items:center;gap:18px}
-.theme-btn{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:var(--glass);color:var(--ink);display:grid;place-items:center;font-size:15px;transition:all .3s}
-.theme-btn:hover{border-color:var(--violet);box-shadow:0 0 18px var(--violet-glow)}
-.btn{padding:11px 22px;border-radius:40px;font-size:13.5px;font-weight:600;border:1px solid var(--violet);background:var(--violet);color:#fff;transition:all .3s;position:relative;overflow:hidden}
-.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
-.btn:hover{box-shadow:0 0 30px var(--violet-glow);transform:translateY(-1px)}
-.btn.ghost:hover{border-color:var(--violet)}
-.menu-toggle{display:none;flex-direction:column;gap:5px;width:26px}
-.menu-toggle span{height:2px;background:var(--ink);transition:.3s}
-@media(max-width:880px){.nav-links{display:none}.menu-toggle{display:flex}}
+    a {
+      color: inherit;
+      text-decoration: none
+    }
 
-/* ---------- layout ---------- */
-section{position:relative;z-index:2;padding:clamp(90px,12vh,160px) clamp(20px,5vw,64px)}
-.wrap{max-width:1240px;margin:0 auto}
-.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--violet-bright);display:flex;align-items:center;gap:10px;margin-bottom:20px}
-.eyebrow:before{content:'';width:28px;height:1px;background:var(--violet)}
-h1,h2,h3{font-weight:700;letter-spacing:-1.5px;line-height:1.04}
-.reveal{opacity:0;transform:translateY(38px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
-.reveal.in{opacity:1;transform:none}
+    ::selection {
+      background: var(--violet);
+      color: #fff
+    }
 
-/* ---------- hero ---------- */
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:120px}
-.hero h1{font-size:clamp(44px,9vw,128px);font-weight:800;letter-spacing:-4px}
-.hero h1 .grad{background:linear-gradient(110deg,var(--violet-bright),#c8a4ff,var(--ink));-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero-line{overflow:hidden;display:block}
-.hero-line span{display:inline-block;transform:translateY(110%);transition:transform 1s cubic-bezier(.16,1,.3,1)}
-.hero.ready .hero-line span{transform:none}
-.hero-sub{max-width:540px;font-size:clamp(16px,2vw,19px);color:var(--ink-dim);margin:34px 0 40px;font-weight:300}
-.hero-cta{display:flex;gap:16px;flex-wrap:wrap}
-.hero-meta{position:absolute;bottom:46px;left:clamp(20px,5vw,64px);right:clamp(20px,5vw,64px);display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--ink-faint);text-transform:uppercase}
-.scroll-ind{display:flex;align-items:center;gap:9px}
-.scroll-ind i{width:1px;height:34px;background:linear-gradient(var(--violet),transparent);animation:scrolly 1.8s infinite}
-@keyframes scrolly{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}50%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+    .no-cursor {
+      cursor: none
+    }
 
-/* ---------- marquee ---------- */
-.marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:26px 0;overflow:hidden;white-space:nowrap;z-index:2;position:relative}
-.marquee .track{display:inline-flex;gap:60px;animation:scroll 28s linear infinite;font-family:var(--mono);font-size:14px;letter-spacing:2px;color:var(--ink-faint);text-transform:uppercase}
-.marquee .track span{display:flex;align-items:center;gap:60px}
-.marquee .track b{color:var(--violet-bright);font-weight:400}
-@keyframes scroll{to{transform:translateX(-50%)}}
+    @media(max-width:820px) {
+      body {
+        cursor: auto
+      }
+    }
 
-/* ---------- about / stats ---------- */
-.about-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center}
-.about-grid h2{font-size:clamp(30px,4.5vw,56px)}
-.about-grid p{color:var(--ink-dim);font-size:17px;font-weight:300;margin-top:24px;max-width:480px}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:20px;overflow:hidden}
-.stat{background:var(--bg-soft);padding:34px;transition:background .3s}
-.stat:hover{background:color-mix(in srgb,var(--violet) 8%,var(--bg-soft))}
-.stat .num{font-size:clamp(34px,5vw,52px);font-weight:800;letter-spacing:-2px;background:linear-gradient(120deg,var(--ink),var(--violet-bright));-webkit-background-clip:text;background-clip:text;color:transparent}
-.stat .lab{font-family:var(--mono);font-size:12px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:1.5px;margin-top:8px}
-@media(max-width:820px){.about-grid{grid-template-columns:1fr;gap:44px}}
+    /* ---------- Custom cursor ---------- */
+    .cursor,
+    .cursor-dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: difference
+    }
 
-/* ---------- section head ---------- */
-.sec-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px;gap:30px;flex-wrap:wrap}
-.sec-head h2{font-size:clamp(30px,5vw,60px);max-width:620px}
-.sec-head p{color:var(--ink-dim);max-width:340px;font-size:15px;font-weight:300}
+    .cursor {
+      width: 34px;
+      height: 34px;
+      border: 1.5px solid #fff;
+      transform: translate(-50%, -50%);
+      transition: width .25s, height .25s, background .25s
+    }
 
-/* ---------- services ---------- */
-.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.svc{background:var(--glass);border:1px solid var(--line);border-radius:20px;padding:36px 32px;position:relative;overflow:hidden;transition:transform .5s cubic-bezier(.16,1,.3,1),border-color .4s;min-height:230px;display:flex;flex-direction:column;justify-content:space-between}
-.svc:before{content:'';position:absolute;inset:0;background:radial-gradient(380px circle at var(--mx,50%) var(--my,50%),var(--violet-glow),transparent 42%);opacity:0;transition:opacity .4s}
-.svc:hover:before{opacity:.18}
-.svc:hover{border-color:color-mix(in srgb,var(--violet) 50%,transparent);transform:translateY(-6px)}
-.svc .ico{width:52px;height:52px;border:1px solid var(--line);border-radius:14px;display:grid;place-items:center;font-size:22px;background:var(--bg-soft);transition:.4s;color:var(--violet-bright)}
-.svc:hover .ico{border-color:var(--violet);box-shadow:0 0 22px var(--violet-glow);transform:rotate(-8deg) scale(1.05)}
-.svc h3{font-size:21px;margin-top:auto;letter-spacing:-.5px;font-weight:600}
-.svc p{color:var(--ink-dim);font-size:13.5px;font-weight:300;margin-top:9px}
-.svc .idx{position:absolute;top:30px;right:32px;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
-@media(max-width:980px){.svc-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:620px){.svc-grid{grid-template-columns:1fr}}
+    .cursor-dot {
+      width: 5px;
+      height: 5px;
+      background: #fff;
+      transform: translate(-50%, -50%)
+    }
 
-/* ---------- portfolio ---------- */
-.work{display:flex;flex-direction:column;gap:24px}
-.case{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;background:var(--glass);border:1px solid var(--line);border-radius:26px;padding:46px;transition:border-color .4s}
-.case:nth-child(even){grid-template-columns:1fr 1fr}
-.case:hover{border-color:color-mix(in srgb,var(--violet) 40%,transparent)}
-.case-tag{font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--violet-bright);text-transform:uppercase}
-.case h3{font-size:clamp(24px,3.5vw,40px);margin:14px 0 16px;letter-spacing:-1px;font-weight:700}
-.case p{color:var(--ink-dim);font-weight:300;font-size:15px;max-width:420px}
-.case .stack{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
-.case .stack span{font-family:var(--mono);font-size:11px;padding:6px 12px;border:1px solid var(--line);border-radius:30px;color:var(--ink-dim)}
-.case .impact{display:flex;gap:34px;margin-top:26px}
-.case .impact div b{display:block;font-size:26px;font-weight:800;letter-spacing:-1px;color:var(--violet-bright)}
-.case .impact div small{font-size:11px;color:var(--ink-faint);font-family:var(--mono)}
-.mock{aspect-ratio:4/3;border-radius:18px;border:1px solid var(--line);position:relative;overflow:hidden;background:linear-gradient(135deg,#0c0f1c,#13091f)}
-.mock:before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,var(--violet-glow),transparent 55%);opacity:.4}
-.mock .bar{position:absolute;top:14px;left:14px;display:flex;gap:6px}
-.mock .bar i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.18)}
-.mock .lines{position:absolute;left:18px;right:18px;top:46px;display:flex;flex-direction:column;gap:10px}
-.mock .lines i{height:8px;border-radius:4px;background:rgba(255,255,255,.06)}
-.mock .lines i:nth-child(1){width:70%;background:linear-gradient(90deg,var(--violet),transparent)}
-.mock .lines i:nth-child(3){width:50%}.mock .lines i:nth-child(4){width:84%}
-.mock .glowcard{position:absolute;right:18px;bottom:18px;width:42%;height:42%;border-radius:12px;border:1px solid color-mix(in srgb,var(--violet) 40%,transparent);background:color-mix(in srgb,var(--violet) 14%,transparent);box-shadow:0 0 40px var(--violet-glow)}
-@media(max-width:820px){.case,.case:nth-child(even){grid-template-columns:1fr;padding:30px;gap:30px}}
+    .cursor.hover {
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, .12);
+      border-color: transparent
+    }
 
-/* ---------- tech orbit ---------- */
-.orbit-wrap{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
-.orbit{position:relative;width:min(440px,90vw);height:min(440px,90vw);margin:0 auto}
-.orbit .core{position:absolute;inset:0;margin:auto;width:96px;height:96px;border-radius:50%;background:radial-gradient(circle,var(--violet-bright),var(--violet));box-shadow:0 0 60px var(--violet-glow);display:grid;place-items:center;font-weight:800;font-size:13px;letter-spacing:-.5px;color:#fff;z-index:3}
-.ring{position:absolute;inset:0;margin:auto;border:1px solid var(--line);border-radius:50%}
-.ring.r1{width:55%;height:55%;animation:spin 18s linear infinite}
-.ring.r2{width:78%;height:78%;animation:spin 30s linear infinite reverse}
-.ring.r3{width:100%;height:100%;animation:spin 42s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.tech{position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11px;padding:7px 13px;border:1px solid var(--line);border-radius:30px;background:var(--bg-soft);white-space:nowrap;animation:counter 18s linear infinite}
-.r2 .tech{animation:counter 30s linear infinite reverse}
-.r3 .tech{animation:counter 42s linear infinite}
-.tech:nth-child(2){top:auto;bottom:-17px}
-.tech:nth-child(3){top:50%;left:-17px;transform:translateY(-50%)}
-.tech:nth-child(4){top:50%;left:auto;right:-17px;transform:translateY(-50%)}
-@keyframes counter{to{transform:rotate(-360deg) translateX(-50%)}}
-.orbit-copy h2{font-size:clamp(28px,4vw,50px);margin-bottom:20px}
-.orbit-copy p{color:var(--ink-dim);font-weight:300;font-size:16px;max-width:420px}
-.tech-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
-.tech-tags span{font-family:var(--mono);font-size:11px;padding:7px 13px;border:1px solid var(--line);border-radius:30px;color:var(--ink-dim);transition:.3s}
-.tech-tags span:hover{border-color:var(--violet);color:var(--ink)}
-@media(max-width:820px){.orbit-wrap{grid-template-columns:1fr;gap:50px}}
+    @media(max-width:820px) {
 
-/* ---------- why us ---------- */
-.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.why{border:1px solid var(--line);border-radius:18px;padding:30px;background:var(--glass);transition:.4s}
-.why:hover{border-color:color-mix(in srgb,var(--violet) 40%,transparent);background:color-mix(in srgb,var(--violet) 5%,var(--glass))}
-.why .n{font-family:var(--mono);font-size:12px;color:var(--violet-bright);margin-bottom:18px}
-.why h3{font-size:18px;font-weight:600;margin-bottom:10px}
-.why p{color:var(--ink-dim);font-size:13.5px;font-weight:300}
-@media(max-width:980px){.why-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.why-grid{grid-template-columns:1fr}}
+      .cursor,
+      .cursor-dot {
+        display: none
+      }
+    }
 
-/* ---------- testimonials ---------- */
-.testi-track{display:flex;gap:20px;overflow-x:auto;padding-bottom:16px;scroll-snap-type:x mandatory;-ms-overflow-style:none;scrollbar-width:none}
-.testi-track::-webkit-scrollbar{display:none}
-.testi{min-width:min(420px,84vw);scroll-snap-align:start;background:var(--glass);border:1px solid var(--line);border-radius:22px;padding:36px;backdrop-filter:blur(12px)}
-.testi p{font-size:18px;font-weight:300;line-height:1.55;letter-spacing:-.3px}
-.testi .who{display:flex;align-items:center;gap:14px;margin-top:28px}
-.testi .av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--violet),var(--violet-bright));display:grid;place-items:center;font-weight:700;font-size:16px;color:#fff}
-.testi .who b{display:block;font-size:14px;font-weight:600}
-.testi .who small{color:var(--ink-faint);font-size:12px;font-family:var(--mono)}
-.testi .stars{color:var(--violet-bright);font-size:13px;margin-bottom:18px;letter-spacing:3px}
+    /* ---------- Loader ---------- */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 26px;
+      transition: opacity .8s, visibility .8s
+    }
 
-/* ---------- contact ---------- */
-.contact-box{border:1px solid var(--line);border-radius:30px;padding:clamp(34px,5vw,72px);background:var(--glass);position:relative;overflow:hidden}
-.contact-box:before{content:'';position:absolute;top:-40%;right:-10%;width:520px;height:520px;background:radial-gradient(circle,var(--violet-glow),transparent 65%);opacity:.4;pointer-events:none}
-.contact-box h2{font-size:clamp(32px,6vw,72px);font-weight:800;letter-spacing:-3px;max-width:680px;position:relative}
-.contact-box h2 .grad{background:linear-gradient(110deg,var(--violet-bright),#c8a4ff);-webkit-background-clip:text;background-clip:text;color:transparent}
-.form{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:46px;position:relative;max-width:640px}
-.field{position:relative}
-.field.full{grid-column:1/-1}
-.field input,.field textarea,.field select{width:100%;background:transparent;border:none;border-bottom:1px solid var(--line);padding:14px 0;color:var(--ink);font-family:var(--sans);font-size:15px;outline:none;transition:border-color .3s}
-.field select{appearance:none;-webkit-appearance:none;cursor:pointer}
-.field select option{background:var(--bg);color:var(--ink)}
-.field textarea{resize:none;min-height:80px}
-.field label{display:block;font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:2px}
-.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--violet)}
-.field .err{display:none;font-family:var(--mono);font-size:10px;color:#ff4d4d;letter-spacing:1px;margin-top:5px}
-.field.invalid .err{display:block}
-.field.invalid input,.field.invalid textarea,.field.invalid select{border-color:#ff4d4d}
-.form .submit-btn{grid-column:1/-1;justify-self:start;margin-top:14px;padding:15px 40px;cursor:pointer;display:flex;align-items:center;gap:10px;font-family:var(--sans)}
-.form .submit-btn .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin2 .7s linear infinite;display:none}
-.form .submit-btn.loading .spinner{display:block}
-.form .submit-btn.loading .btn-text{opacity:.6}
-@keyframes spin2{to{transform:rotate(360deg)}}
-.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-soft);border:1px solid var(--line);border-radius:14px;padding:16px 28px;font-size:14px;font-weight:500;z-index:9000;opacity:0;transition:all .5s cubic-bezier(.16,1,.3,1);pointer-events:none;white-space:nowrap;backdrop-filter:blur(16px)}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.toast.success{border-color:var(--violet);box-shadow:0 0 30px var(--violet-glow)}
-.toast.error{border-color:#ff4d4d;box-shadow:0 0 30px rgba(255,77,77,.3)}
-.form-success{display:none;flex-direction:column;align-items:flex-start;gap:18px;padding:40px 0}
-.form-success.show{display:flex}
-.form-success .tick{width:60px;height:60px;border-radius:50%;background:color-mix(in srgb,var(--violet) 20%,transparent);border:1px solid var(--violet);display:grid;place-items:center;font-size:26px;box-shadow:0 0 30px var(--violet-glow)}
-.form-success h3{font-size:28px;font-weight:700;letter-spacing:-1px}
-.form-success p{color:var(--ink-dim);font-weight:300;max-width:400px}
-@media(max-width:620px){.form{grid-template-columns:1fr}}
+    #loader.done {
+      opacity: 0;
+      visibility: hidden
+    }
 
-/* ---------- footer ---------- */
-footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:60px clamp(20px,5vw,64px) 40px}
-.foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:50px}
-.foot-top .brand{font-size:32px}
-.foot-cols{display:flex;gap:70px;flex-wrap:wrap}
-.foot-col h5{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-faint);margin-bottom:16px}
-.foot-col a{display:block;color:var(--ink-dim);font-size:14px;margin-bottom:11px;transition:color .25s}
-.foot-col a:hover{color:var(--violet-bright)}
-.foot-bot{display:flex;justify-content:space-between;align-items:center;padding-top:30px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:1px;flex-wrap:wrap;gap:14px}
-.giant{font-size:clamp(60px,22vw,300px);font-weight:800;letter-spacing:-10px;text-align:center;line-height:.8;margin-top:30px;background:linear-gradient(180deg,color-mix(in srgb,var(--ink) 18%,transparent),transparent);-webkit-background-clip:text;background-clip:text;color:transparent;user-select:none}
-</style>
+    .load-mark {
+      font-size: clamp(28px, 6vw, 54px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      display: flex;
+      align-items: center;
+      gap: 4px
+    }
+
+    .load-dot {
+      width: .42em;
+      height: .42em;
+      border-radius: 50%;
+      background: var(--violet);
+      box-shadow: 0 0 30px var(--violet-glow);
+      animation: pulse 1.1s ease-in-out infinite
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 1
+      }
+
+      50% {
+        transform: scale(.55);
+        opacity: .5
+      }
+    }
+
+    .load-bar {
+      width: 200px;
+      height: 2px;
+      background: var(--line);
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px
+    }
+
+    .load-bar i {
+      position: absolute;
+      inset: 0;
+      width: 0;
+      background: var(--violet);
+      box-shadow: 0 0 14px var(--violet-glow);
+      transition: width .2s
+    }
+
+    .load-pct {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-faint);
+      letter-spacing: 2px
+    }
+
+    /* ---------- canvas bg ---------- */
+    #scene {
+      position: fixed;
+      inset: 0;
+      z-index: 0
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: .5;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay
+    }
+
+    /* ---------- nav ---------- */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px clamp(20px, 5vw, 64px);
+      transition: all .4s
+    }
+
+    nav.scrolled {
+      padding: 14px clamp(20px, 5vw, 64px);
+      background: color-mix(in srgb, var(--bg) 72%, transparent);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line)
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 800;
+      font-size: 21px;
+      letter-spacing: -1px
+    }
+
+    .brand .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--violet);
+      box-shadow: 0 0 16px var(--violet-glow);
+      position: relative;
+      top: 1px
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 34px;
+      font-size: 13.5px;
+      color: var(--ink-dim);
+      font-weight: 500
+    }
+
+    .nav-links a {
+      position: relative;
+      transition: color .25s
+    }
+
+    .nav-links a:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 0;
+      height: 1px;
+      background: var(--violet);
+      transition: width .3s
+    }
+
+    .nav-links a:hover {
+      color: var(--ink)
+    }
+
+    .nav-links a:hover:after {
+      width: 100%
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 18px
+    }
+
+    .theme-btn {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--glass);
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+      transition: all .3s
+    }
+
+    .theme-btn:hover {
+      border-color: var(--violet);
+      box-shadow: 0 0 18px var(--violet-glow)
+    }
+
+    .btn {
+      padding: 11px 22px;
+      border-radius: 40px;
+      font-size: 13.5px;
+      font-weight: 600;
+      border: 1px solid var(--violet);
+      background: var(--violet);
+      color: #fff;
+      transition: all .3s;
+      position: relative;
+      overflow: hidden
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--line)
+    }
+
+    .btn:hover {
+      box-shadow: 0 0 30px var(--violet-glow);
+      transform: translateY(-1px)
+    }
+
+    .btn.ghost:hover {
+      border-color: var(--violet)
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      width: 26px
+    }
+
+    .menu-toggle span {
+      height: 2px;
+      background: var(--ink);
+      transition: .3s
+    }
+
+    @media(max-width:880px) {
+      .nav-links {
+        display: none
+      }
+
+      .menu-toggle {
+        display: flex
+      }
+    }
+
+    /* ---------- layout ---------- */
+    section {
+      position: relative;
+      z-index: 2;
+      padding: clamp(90px, 12vh, 160px) clamp(20px, 5vw, 64px)
+    }
+
+    .wrap {
+      max-width: 1240px;
+      margin: 0 auto
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--violet-bright);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px
+    }
+
+    .eyebrow:before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: var(--violet)
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      line-height: 1.04
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(38px);
+      transition: opacity .9s cubic-bezier(.16, 1, .3, 1), transform .9s cubic-bezier(.16, 1, .3, 1)
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: none
+    }
+
+    /* ---------- hero ---------- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 120px
+    }
+
+    .hero h1 {
+      font-size: clamp(44px, 9vw, 128px);
+      font-weight: 800;
+      letter-spacing: -4px
+    }
+
+    .hero h1 .grad {
+      background: linear-gradient(110deg, var(--violet-bright), #c8a4ff, var(--ink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent
+    }
+
+    .hero-line {
+      overflow: hidden;
+      display: block
+    }
+
+    .hero-line span {
+      display: inline-block;
+      transform: translateY(110%);
+      transition: transform 1s cubic-bezier(.16, 1, .3, 1)
+    }
+
+    .hero.ready .hero-line span {
+      transform: none
+    }
+
+    .hero-sub {
+      max-width: 540px;
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--ink-dim);
+      margin: 34px 0 40px;
+      font-weight: 300
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap
+    }
+
+    .hero-meta {
+      position: absolute;
+      bottom: 46px;
+      left: clamp(20px, 5vw, 64px);
+      right: clamp(20px, 5vw, 64px);
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      color: var(--ink-faint);
+      text-transform: uppercase
+    }
+
+    .scroll-ind {
+      display: flex;
+      align-items: center;
+      gap: 9px
+    }
+
+    .scroll-ind i {
+      width: 1px;
+      height: 34px;
+      background: linear-gradient(var(--violet), transparent);
+      animation: scrolly 1.8s infinite
+    }
+
+    @keyframes scrolly {
+      0% {
+        transform: scaleY(0);
+        transform-origin: top
+      }
+
+      45% {
+        transform: scaleY(1);
+        transform-origin: top
+      }
+
+      50% {
+        transform: scaleY(1);
+        transform-origin: bottom
+      }
+
+      100% {
+        transform: scaleY(0);
+        transform-origin: bottom
+      }
+    }
+
+    /* ---------- marquee ---------- */
+    .marquee {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 26px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      z-index: 2;
+      position: relative
+    }
+
+    .marquee .track {
+      display: inline-flex;
+      gap: 60px;
+      animation: scroll 28s linear infinite;
+      font-family: var(--mono);
+      font-size: 14px;
+      letter-spacing: 2px;
+      color: var(--ink-faint);
+      text-transform: uppercase
+    }
+
+    .marquee .track span {
+      display: flex;
+      align-items: center;
+      gap: 60px
+    }
+
+    .marquee .track b {
+      color: var(--violet-bright);
+      font-weight: 400
+    }
+
+    @keyframes scroll {
+      to {
+        transform: translateX(-50%)
+      }
+    }
+
+    /* ---------- about / stats ---------- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 60px;
+      align-items: center
+    }
+
+    .about-grid h2 {
+      font-size: clamp(30px, 4.5vw, 56px)
+    }
+
+    .about-grid p {
+      color: var(--ink-dim);
+      font-size: 17px;
+      font-weight: 300;
+      margin-top: 24px;
+      max-width: 480px
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      overflow: hidden
+    }
+
+    .stat {
+      background: var(--bg-soft);
+      padding: 34px;
+      transition: background .3s
+    }
+
+    .stat:hover {
+      background: color-mix(in srgb, var(--violet) 8%, var(--bg-soft))
+    }
+
+    .stat .num {
+      font-size: clamp(34px, 5vw, 52px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      background: linear-gradient(120deg, var(--ink), var(--violet-bright));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent
+    }
+
+    .stat .lab {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 8px
+    }
+
+    @media(max-width:820px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 44px
+      }
+    }
+
+    /* ---------- section head ---------- */
+    .sec-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 60px;
+      gap: 30px;
+      flex-wrap: wrap
+    }
+
+    .sec-head h2 {
+      font-size: clamp(30px, 5vw, 60px);
+      max-width: 620px
+    }
+
+    .sec-head p {
+      color: var(--ink-dim);
+      max-width: 340px;
+      font-size: 15px;
+      font-weight: 300
+    }
+
+    /* ---------- services ---------- */
+    .svc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px
+    }
+
+    .svc {
+      background: var(--glass);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 36px 32px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .5s cubic-bezier(.16, 1, .3, 1), border-color .4s;
+      min-height: 230px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between
+    }
+
+    .svc:before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), var(--violet-glow), transparent 42%);
+      opacity: 0;
+      transition: opacity .4s
+    }
+
+    .svc:hover:before {
+      opacity: .18
+    }
+
+    .svc:hover {
+      border-color: color-mix(in srgb, var(--violet) 50%, transparent);
+      transform: translateY(-6px)
+    }
+
+    .svc .ico {
+      width: 52px;
+      height: 52px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      background: var(--bg-soft);
+      transition: .4s;
+      color: var(--violet-bright)
+    }
+
+    .svc:hover .ico {
+      border-color: var(--violet);
+      box-shadow: 0 0 22px var(--violet-glow);
+      transform: rotate(-8deg) scale(1.05)
+    }
+
+    .svc h3 {
+      font-size: 21px;
+      margin-top: auto;
+      letter-spacing: -.5px;
+      font-weight: 600
+    }
+
+    .svc p {
+      color: var(--ink-dim);
+      font-size: 13.5px;
+      font-weight: 300;
+      margin-top: 9px
+    }
+
+    .svc .idx {
+      position: absolute;
+      top: 30px;
+      right: 32px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--ink-faint)
+    }
+
+    @media(max-width:980px) {
+      .svc-grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+
+    @media(max-width:620px) {
+      .svc-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* ---------- portfolio ---------- */
+    .work {
+      display: flex;
+      flex-direction: column;
+      gap: 24px
+    }
+
+    .case {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+      background: var(--glass);
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      padding: 46px;
+      transition: border-color .4s
+    }
+
+    .case:nth-child(even) {
+      grid-template-columns: 1fr 1fr
+    }
+
+    .case:hover {
+      border-color: color-mix(in srgb, var(--violet) 40%, transparent)
+    }
+
+    .case-tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--violet-bright);
+      text-transform: uppercase
+    }
+
+    .case h3 {
+      font-size: clamp(24px, 3.5vw, 40px);
+      margin: 14px 0 16px;
+      letter-spacing: -1px;
+      font-weight: 700
+    }
+
+    .case p {
+      color: var(--ink-dim);
+      font-weight: 300;
+      font-size: 15px;
+      max-width: 420px
+    }
+
+    .case .stack {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 22px
+    }
+
+    .case .stack span {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      color: var(--ink-dim)
+    }
+
+    .case .impact {
+      display: flex;
+      gap: 34px;
+      margin-top: 26px
+    }
+
+    .case .impact div b {
+      display: block;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--violet-bright)
+    }
+
+    .case .impact div small {
+      font-size: 11px;
+      color: var(--ink-faint);
+      font-family: var(--mono)
+    }
+
+    .mock {
+      aspect-ratio: 4/3;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0c0f1c, #13091f)
+    }
+
+    .mock:before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 20%, var(--violet-glow), transparent 55%);
+      opacity: .4
+    }
+
+    .mock .bar {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      display: flex;
+      gap: 6px
+    }
+
+    .mock .bar i {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .18)
+    }
+
+    .mock .lines {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      top: 46px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
+
+    .mock .lines i {
+      height: 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, .06)
+    }
+
+    .mock .lines i:nth-child(1) {
+      width: 70%;
+      background: linear-gradient(90deg, var(--violet), transparent)
+    }
+
+    .mock .lines i:nth-child(3) {
+      width: 50%
+    }
+
+    .mock .lines i:nth-child(4) {
+      width: 84%
+    }
+
+    .mock .glowcard {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      width: 42%;
+      height: 42%;
+      border-radius: 12px;
+      border: 1px solid color-mix(in srgb, var(--violet) 40%, transparent);
+      background: color-mix(in srgb, var(--violet) 14%, transparent);
+      box-shadow: 0 0 40px var(--violet-glow)
+    }
+
+    @media(max-width:820px) {
+
+      .case,
+      .case:nth-child(even) {
+        grid-template-columns: 1fr;
+        padding: 30px;
+        gap: 30px
+      }
+    }
+
+    /* ---------- tech orbit ---------- */
+    .orbit-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center
+    }
+
+    .orbit {
+      position: relative;
+      width: min(440px, 90vw);
+      height: min(440px, 90vw);
+      margin: 0 auto
+    }
+
+    .orbit .core {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--violet-bright), var(--violet));
+      box-shadow: 0 0 60px var(--violet-glow);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: -.5px;
+      color: #fff;
+      z-index: 3
+    }
+
+    .ring {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      border: 1px solid var(--line);
+      border-radius: 50%
+    }
+
+    .ring.r1 {
+      width: 55%;
+      height: 55%;
+      animation: spin 18s linear infinite
+    }
+
+    .ring.r2 {
+      width: 78%;
+      height: 78%;
+      animation: spin 30s linear infinite reverse
+    }
+
+    .ring.r3 {
+      width: 100%;
+      height: 100%;
+      animation: spin 42s linear infinite
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .tech {
+      position: absolute;
+      top: -17px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 7px 13px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: var(--bg-soft);
+      white-space: nowrap;
+      animation: counter 18s linear infinite
+    }
+
+    .r2 .tech {
+      animation: counter 30s linear infinite reverse
+    }
+
+    .r3 .tech {
+      animation: counter 42s linear infinite
+    }
+
+    .tech:nth-child(2) {
+      top: auto;
+      bottom: -17px
+    }
+
+    .tech:nth-child(3) {
+      top: 50%;
+      left: -17px;
+      transform: translateY(-50%)
+    }
+
+    .tech:nth-child(4) {
+      top: 50%;
+      left: auto;
+      right: -17px;
+      transform: translateY(-50%)
+    }
+
+    @keyframes counter {
+      to {
+        transform: rotate(-360deg) translateX(-50%)
+      }
+    }
+
+    .orbit-copy h2 {
+      font-size: clamp(28px, 4vw, 50px);
+      margin-bottom: 20px
+    }
+
+    .orbit-copy p {
+      color: var(--ink-dim);
+      font-weight: 300;
+      font-size: 16px;
+      max-width: 420px
+    }
+
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 28px
+    }
+
+    .tech-tags span {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 7px 13px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      color: var(--ink-dim);
+      transition: .3s
+    }
+
+    .tech-tags span:hover {
+      border-color: var(--violet);
+      color: var(--ink)
+    }
+
+    @media(max-width:820px) {
+      .orbit-wrap {
+        grid-template-columns: 1fr;
+        gap: 50px
+      }
+    }
+
+    /* ---------- why us ---------- */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px
+    }
+
+    .why {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 30px;
+      background: var(--glass);
+      transition: .4s
+    }
+
+    .why:hover {
+      border-color: color-mix(in srgb, var(--violet) 40%, transparent);
+      background: color-mix(in srgb, var(--violet) 5%, var(--glass))
+    }
+
+    .why .n {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--violet-bright);
+      margin-bottom: 18px
+    }
+
+    .why h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px
+    }
+
+    .why p {
+      color: var(--ink-dim);
+      font-size: 13.5px;
+      font-weight: 300
+    }
+
+    @media(max-width:980px) {
+      .why-grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+
+    @media(max-width:560px) {
+      .why-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* ---------- testimonials ---------- */
+    .testi-track {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding-bottom: 16px;
+      scroll-snap-type: x mandatory;
+      -ms-overflow-style: none;
+      scrollbar-width: none
+    }
+
+    .testi-track::-webkit-scrollbar {
+      display: none
+    }
+
+    .testi {
+      min-width: min(420px, 84vw);
+      scroll-snap-align: start;
+      background: var(--glass);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 36px;
+      backdrop-filter: blur(12px)
+    }
+
+    .testi p {
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.55;
+      letter-spacing: -.3px
+    }
+
+    .testi .who {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 28px
+    }
+
+    .testi .av {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--violet), var(--violet-bright));
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 16px;
+      color: #fff
+    }
+
+    .testi .who b {
+      display: block;
+      font-size: 14px;
+      font-weight: 600
+    }
+
+    .testi .who small {
+      color: var(--ink-faint);
+      font-size: 12px;
+      font-family: var(--mono)
+    }
+
+    .testi .stars {
+      color: var(--violet-bright);
+      font-size: 13px;
+      margin-bottom: 18px;
+      letter-spacing: 3px
+    }
+
+    /* ---------- contact ---------- */
+    .contact-box {
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: clamp(34px, 5vw, 72px);
+      background: var(--glass);
+      position: relative;
+      overflow: hidden
+    }
+
+    .contact-box:before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -10%;
+      width: 520px;
+      height: 520px;
+      background: radial-gradient(circle, var(--violet-glow), transparent 65%);
+      opacity: .4;
+      pointer-events: none
+    }
+
+    .contact-box h2 {
+      font-size: clamp(32px, 6vw, 72px);
+      font-weight: 800;
+      letter-spacing: -3px;
+      max-width: 680px;
+      position: relative
+    }
+
+    .contact-box h2 .grad {
+      background: linear-gradient(110deg, var(--violet-bright), #c8a4ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent
+    }
+
+    .form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 46px;
+      position: relative;
+      max-width: 640px
+    }
+
+    .field {
+      position: relative
+    }
+
+    .field.full {
+      grid-column: 1/-1
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--line);
+      padding: 14px 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 15px;
+      outline: none;
+      transition: border-color .3s
+    }
+
+    .field select {
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer
+    }
+
+    .field select option {
+      background: var(--bg);
+      color: var(--ink)
+    }
+
+    .field textarea {
+      resize: none;
+      min-height: 80px
+    }
+
+    .field label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-faint);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 2px
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--violet)
+    }
+
+    .field .err {
+      display: none;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: #ff4d4d;
+      letter-spacing: 1px;
+      margin-top: 5px
+    }
+
+    .field.invalid .err {
+      display: block
+    }
+
+    .field.invalid input,
+    .field.invalid textarea,
+    .field.invalid select {
+      border-color: #ff4d4d
+    }
+
+    .form .submit-btn {
+      grid-column: 1/-1;
+      justify-self: start;
+      margin-top: 14px;
+      padding: 15px 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--sans)
+    }
+
+    .form .submit-btn .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, .3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin2 .7s linear infinite;
+      display: none
+    }
+
+    .form .submit-btn.loading .spinner {
+      display: block
+    }
+
+    .form .submit-btn.loading .btn-text {
+      opacity: .6
+    }
+
+    @keyframes spin2 {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 28px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 9000;
+      opacity: 0;
+      transition: all .5s cubic-bezier(.16, 1, .3, 1);
+      pointer-events: none;
+      white-space: nowrap;
+      backdrop-filter: blur(16px)
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0)
+    }
+
+    .toast.success {
+      border-color: var(--violet);
+      box-shadow: 0 0 30px var(--violet-glow)
+    }
+
+    .toast.error {
+      border-color: #ff4d4d;
+      box-shadow: 0 0 30px rgba(255, 77, 77, .3)
+    }
+
+    .form-success {
+      display: none;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 18px;
+      padding: 40px 0
+    }
+
+    .form-success.show {
+      display: flex
+    }
+
+    .form-success .tick {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--violet) 20%, transparent);
+      border: 1px solid var(--violet);
+      display: grid;
+      place-items: center;
+      font-size: 26px;
+      box-shadow: 0 0 30px var(--violet-glow)
+    }
+
+    .form-success h3 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -1px
+    }
+
+    .form-success p {
+      color: var(--ink-dim);
+      font-weight: 300;
+      max-width: 400px
+    }
+
+    @media(max-width:620px) {
+      .form {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* ---------- footer ---------- */
+    footer {
+      position: relative;
+      z-index: 2;
+      border-top: 1px solid var(--line);
+      padding: 60px clamp(20px, 5vw, 64px) 40px
+    }
+
+    .foot-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 50px
+    }
+
+    .foot-top .brand {
+      font-size: 32px
+    }
+
+    .foot-cols {
+      display: flex;
+      gap: 70px;
+      flex-wrap: wrap
+    }
+
+    .foot-col h5 {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 16px
+    }
+
+    .foot-col a {
+      display: block;
+      color: var(--ink-dim);
+      font-size: 14px;
+      margin-bottom: 11px;
+      transition: color .25s
+    }
+
+    .foot-col a:hover {
+      color: var(--violet-bright)
+    }
+
+    .foot-bot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 30px;
+      border-top: 1px solid var(--line);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-faint);
+      letter-spacing: 1px;
+      flex-wrap: wrap;
+      gap: 14px
+    }
+
+    .giant {
+      font-size: clamp(60px, 22vw, 300px);
+      font-weight: 800;
+      letter-spacing: -10px;
+      text-align: center;
+      line-height: .8;
+      margin-top: 30px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--ink) 18%, transparent), transparent);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      user-select: none
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- cursor -->
-<div class="cursor"></div><div class="cursor-dot"></div>
+  <!-- cursor -->
+  <div class="cursor"></div>
+  <div class="cursor-dot"></div>
 
-<!-- loader -->
-<div id="loader">
-  <div class="load-mark">DEOMIC<span class="load-dot"></span></div>
-  <div class="load-bar"><i></i></div>
-  <div class="load-pct">0%</div>
-</div>
-
-<!-- 3D scene -->
-<canvas id="scene"></canvas>
-<div class="grain"></div>
-
-<!-- NAV -->
-<nav id="nav">
-  <a href="#top" class="brand">Deomic<span class="dot"></span></a>
-  <div class="nav-links">
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#work">Work</a>
-    <a href="#tech">Tech</a>
-    <a href="#why">Why Us</a>
+  <!-- loader -->
+  <div id="loader">
+    <div class="load-mark">DEOMIC<span class="load-dot"></span></div>
+    <div class="load-bar"><i></i></div>
+    <div class="load-pct">0%</div>
   </div>
-  <div class="nav-right">
-    <button class="theme-btn" id="theme" aria-label="Toggle theme">◐</button>
-    <a href="#contact" class="btn">Start a project</a>
-    <div class="menu-toggle"><span></span><span></span><span></span></div>
-  </div>
-</nav>
 
-<!-- HERO -->
-<section class="hero" id="top">
-  <div class="wrap">
-    <div class="eyebrow">Elite Software Engineering Studio</div>
-    <h1>
-      <span class="hero-line"><span>We engineer</span></span>
-      <span class="hero-line"><span class="grad">the&nbsp;future</span></span>
-      <span class="hero-line"><span>of software.</span></span>
-    </h1>
-    <p class="hero-sub">Deomic Technologies builds premium web, mobile, AI and cloud products for ambitious companies — fusing engineering precision with cinematic design.</p>
-    <div class="hero-cta">
-      <a href="#contact" class="btn">Build with us &nbsp;→</a>
-      <a href="#work" class="btn ghost">View our work</a>
+  <!-- 3D scene -->
+  <canvas id="scene"></canvas>
+  <div class="grain"></div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#top" class="brand">Deomic<span class="dot"></span></a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#tech">Tech</a>
+      <a href="#why">Why Us</a>
     </div>
-  </div>
-  <div class="hero-meta">
-    <div class="scroll-ind"><i></i> Scroll to explore</div>
-    <div>EST. 2021 — GLOBAL</div>
-  </div>
-</section>
-
-<!-- MARQUEE -->
-<div class="marquee">
-  <div class="track">
-    <span>Web Platforms <b>◆</b> AI Integration <b>◆</b> Cloud Architecture <b>◆</b> SaaS Products <b>◆</b> Mobile Apps <b>◆</b> DevOps <b>◆</b> UI/UX Systems <b>◆</b> Enterprise Software <b>◆</b></span>
-    <span>Web Platforms <b>◆</b> AI Integration <b>◆</b> Cloud Architecture <b>◆</b> SaaS Products <b>◆</b> Mobile Apps <b>◆</b> DevOps <b>◆</b> UI/UX Systems <b>◆</b> Enterprise Software <b>◆</b></span>
-  </div>
-</div>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="wrap about-grid">
-    <div class="reveal">
-      <div class="eyebrow">Who we are</div>
-      <h2>An engineering partner for companies that refuse to ship average.</h2>
-      <p>We're a compact senior team of engineers, designers and product strategists. No middle layers, no fluff — just elite people building products that scale, perform and feel unmistakably premium.</p>
+    <div class="nav-right">
+      <button class="theme-btn" id="theme" aria-label="Toggle theme">◐</button>
+      <a href="#contact" class="btn">Start a project</a>
+      <div class="menu-toggle"><span></span><span></span><span></span></div>
     </div>
-    <div class="stats reveal">
-      <div class="stat"><div class="num" data-count="180">0</div><div class="lab">Products shipped</div></div>
-      <div class="stat"><div class="num" data-count="42">0</div><div class="lab">Global clients</div></div>
-      <div class="stat"><div class="num" data-count="99" data-suffix="%">0</div><div class="lab">Retention rate</div></div>
-      <div class="stat"><div class="num" data-count="14">0</div><div class="lab">Avg. dev years</div></div>
-    </div>
-  </div>
-</section>
+  </nav>
 
-<!-- SERVICES -->
-<section id="services">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <h2>Full-spectrum engineering, delivered with obsession.</h2>
-      <p>Nine core capabilities — composed into whatever your product needs to win.</p>
-    </div>
-    <div class="svc-grid" id="svcGrid"></div>
-  </div>
-</section>
-
-<!-- WORK -->
-<section id="work">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <h2>Selected work that moved the metrics.</h2>
-      <p>Cinematic products built for real business outcomes.</p>
-    </div>
-    <div class="work" id="workList"></div>
-  </div>
-</section>
-
-<!-- TECH -->
-<section id="tech">
-  <div class="wrap orbit-wrap">
-    <div class="orbit reveal">
-      <div class="ring r1"><span class="tech">React</span><span class="tech">Next.js</span><span class="tech">Node</span><span class="tech">TS</span></div>
-      <div class="ring r2"><span class="tech">AWS</span><span class="tech">Docker</span><span class="tech">Postgres</span><span class="tech">Redis</span></div>
-      <div class="ring r3"><span class="tech">OpenAI</span><span class="tech">MongoDB</span><span class="tech">Kubernetes</span><span class="tech">Vercel</span></div>
-      <div class="core">DEOMIC</div>
-    </div>
-    <div class="orbit-copy reveal">
-      <div class="eyebrow">Technology ecosystem</div>
-      <h2>A modern stack, mastered end-to-end.</h2>
-      <p>We don't chase trends — we choose the right tool for durability, speed and scale, then wield it with senior-level depth across the entire pipeline.</p>
-      <div class="tech-tags">
-        <span>React</span><span>Next.js 15</span><span>TypeScript</span><span>Node.js</span><span>PostgreSQL</span><span>MongoDB</span><span>AWS</span><span>Docker</span><span>Kubernetes</span><span>Firebase</span><span>GraphQL</span><span>AI APIs</span><span>Three.js</span><span>Terraform</span>
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div class="eyebrow">Elite Software Engineering Studio</div>
+      <h1>
+        <span class="hero-line"><span>We engineer</span></span>
+        <span class="hero-line"><span class="grad">the&nbsp;future</span></span>
+        <span class="hero-line"><span>of software.</span></span>
+      </h1>
+      <p class="hero-sub">Deomic Technologies builds premium web, mobile, AI and cloud products for ambitious companies
+        — fusing engineering precision with cinematic design.</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn">Build with us &nbsp;→</a>
+        <a href="#work" class="btn ghost">View our work</a>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- WHY -->
-<section id="why">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <h2>Why teams choose Deomic.</h2>
-      <p>The difference between a vendor and a partner is felt in every sprint.</p>
+    <div class="hero-meta">
+      <div class="scroll-ind"><i></i> Scroll to explore</div>
+      <div>EST. 2021 — GLOBAL</div>
     </div>
-    <div class="why-grid" id="whyGrid"></div>
-  </div>
-</section>
+  </section>
 
-<!-- TESTIMONIALS -->
-<section id="testimonials">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <h2>Trusted by founders & enterprise teams.</h2>
-      <p>Long partnerships, not one-off projects.</p>
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <div class="track">
+      <span>Web Platforms <b>◆</b> AI Integration <b>◆</b> Cloud Architecture <b>◆</b> SaaS Products <b>◆</b> Mobile
+        Apps <b>◆</b> DevOps <b>◆</b> UI/UX Systems <b>◆</b> Enterprise Software <b>◆</b></span>
+      <span>Web Platforms <b>◆</b> AI Integration <b>◆</b> Cloud Architecture <b>◆</b> SaaS Products <b>◆</b> Mobile
+        Apps <b>◆</b> DevOps <b>◆</b> UI/UX Systems <b>◆</b> Enterprise Software <b>◆</b></span>
     </div>
-    <div class="testi-track reveal" id="testiTrack"></div>
   </div>
-</section>
 
-<!-- toast notification -->
-<div class="toast" id="toast"></div>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="wrap">
-    <div class="contact-box reveal">
-      <div class="eyebrow">Start a project</div>
-      <h2>Let's build something <span class="grad">unforgettable.</span></h2>
-
-      <!-- ✅ Success state -->
-      <div class="form-success" id="formSuccess">
-        <div class="tick">✦</div>
-        <h3>Brief received.</h3>
-        <p>We'll review your project and get back to you at <strong id="successEmail"></strong> within 24 hours.</p>
-        <button class="btn ghost" onclick="resetForm()" style="margin-top:8px">Send another →</button>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap about-grid">
+      <div class="reveal">
+        <div class="eyebrow">Who we are</div>
+        <h2>An engineering partner for companies that refuse to ship average.</h2>
+        <p>We're a compact senior team of engineers, designers and product strategists. No middle layers, no fluff —
+          just elite people building products that scale, perform and feel unmistakably premium.</p>
       </div>
-
-      <!-- 📬 Form -->
-      <form class="form" id="contactForm" novalidate>
-
-        <!-- Web3Forms hidden fields -->
-        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
-        <input type="hidden" name="subject" value="New Project Brief — Deomic Technologies">
-        <input type="hidden" name="from_name" value="Deomic Website">
-        <input type="hidden" name="redirect" value="false">
-        <input type="checkbox" name="botcheck" style="display:none">
-
-        <div class="field" id="f-name">
-          <label for="inp-name">Your name</label>
-          <input id="inp-name" name="name" type="text" placeholder="Jane Doe" autocomplete="name">
-          <span class="err">Name is required</span>
+      <div class="stats reveal">
+        <div class="stat">
+          <div class="num" data-count="180">0</div>
+          <div class="lab">Products shipped</div>
         </div>
-
-        <div class="field" id="f-email">
-          <label for="inp-email">Email address</label>
-          <input id="inp-email" name="email" type="email" placeholder="jane@company.com" autocomplete="email">
-          <span class="err">Valid email required</span>
+        <div class="stat">
+          <div class="num" data-count="42">0</div>
+          <div class="lab">Global clients</div>
         </div>
-
-        <div class="field" id="f-budget">
-          <label for="inp-budget">Budget range</label>
-          <select id="inp-budget" name="budget">
-            <option value="" disabled selected>Select range…</option>
-            <option>Under ₹50,000</option>
-            <option>₹50,000 – ₹1,50,000</option>
-            <option>₹1,50,000 – ₹5,00,000</option>
-            <option>₹5,00,000 – ₹15,00,000</option>
-            <option>₹15,00,000+</option>
-          </select>
-          <span class="err">Please select a budget</span>
+        <div class="stat">
+          <div class="num" data-count="99" data-suffix="%">0</div>
+          <div class="lab">Retention rate</div>
         </div>
-
-        <div class="field" id="f-type">
-          <label for="inp-type">Project type</label>
-          <select id="inp-type" name="project_type">
-            <option value="" disabled selected>Select type…</option>
-            <option>Website / Landing page</option>
-            <option>Web application / SaaS</option>
-            <option>Mobile app (iOS / Android)</option>
-            <option>AI integration</option>
-            <option>Cloud architecture</option>
-            <option>UI/UX design system</option>
-            <option>Other</option>
-          </select>
-          <span class="err">Please select a project type</span>
+        <div class="stat">
+          <div class="num" data-count="14">0</div>
+          <div class="lab">Avg. dev years</div>
         </div>
-
-        <div class="field full" id="f-msg">
-          <label for="inp-msg">Tell us about your project</label>
-          <textarea id="inp-msg" name="message" placeholder="What are you building? What's the goal? Any timeline?"></textarea>
-          <span class="err">Please tell us about your project</span>
-        </div>
-
-        <button type="submit" class="btn submit-btn" id="submitBtn">
-          <span class="spinner"></span>
-          <span class="btn-text">Send brief &nbsp;→</span>
-        </button>
-
-      </form>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="wrap">
-    <div class="foot-top">
-      <div>
-        <a href="#top" class="brand">Deomic<span class="dot"></span></a>
-        <p style="color:var(--ink-dim);font-weight:300;max-width:280px;margin-top:16px;font-size:14px">Engineering the future of software, one premium product at a time.</p>
-      </div>
-      <div class="foot-cols">
-        <div class="foot-col"><h5>Company</h5><a href="#about">About</a><a href="#work">Work</a><a href="#why">Why Us</a><a href="#contact">Contact</a></div>
-        <div class="foot-col"><h5>Services</h5><a href="#services">Web</a><a href="#services">AI</a><a href="#services">Cloud</a><a href="#services">Mobile</a></div>
-        <div class="foot-col"><h5>Connect</h5><a href="#">LinkedIn</a><a href="#">X / Twitter</a><a href="#">GitHub</a><a href="#">Dribbble</a></div>
       </div>
     </div>
-    <div class="foot-bot">
-      <span>© 2026 DEOMIC TECHNOLOGIES — ALL RIGHTS RESERVED</span>
-      <span>DESIGNED & ENGINEERED IN-HOUSE</span>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>Full-spectrum engineering, delivered with obsession.</h2>
+        <p>Nine core capabilities — composed into whatever your product needs to win.</p>
+      </div>
+      <div class="svc-grid" id="svcGrid"></div>
     </div>
-    <div class="giant">DEOMIC</div>
-  </div>
-</footer>
+  </section>
 
-<script>
-/* ---------------- data ---------------- */
-const services=[
- ['◇','Web Development','High-performance sites & web apps engineered for speed and scale.'],
- ['▤','Mobile Applications','Native-grade iOS & Android experiences from a single codebase.'],
- ['◈','SaaS Platforms','Multi-tenant products with billing, auth and analytics built in.'],
- ['✶','AI Integrations','LLMs, RAG, agents and ML embedded into real product workflows.'],
- ['☁','Cloud Architecture','Resilient, cost-optimized infrastructure that scales on demand.'],
- ['◐','UI/UX Systems','Design systems and interfaces that feel premium and convert.'],
- ['⟳','Automation','Workflow & process automation that removes operational drag.'],
- ['▦','Enterprise Software','Mission-critical systems with security and compliance baked in.'],
- ['⎇','DevOps Solutions','CI/CD, observability and IaC for ship-fast, sleep-easy teams.'],
-];
-const work=[
- ['Fintech · SaaS','Helix — Treasury OS','A real-time treasury platform unifying cash flow, forecasting and payments across 30+ banks into one cinematic dashboard.',['Next.js','Node','Postgres','AWS'],[['3.2x','Faster close'],['$40M','Assets tracked']]],
- ['AI · Product','Nova — AI Copilot','An embedded AI assistant for support teams — RAG over private docs, live actions, and a fluid conversational UI.',['React','OpenAI','Pinecone','Vercel'],[['68%','Tickets deflected'],['12k','Daily queries']]],
- ['Health · Mobile','Pulse — Care App','A patient companion app with secure messaging, scheduling and wearable sync — built for trust and accessibility.',['React Native','Firebase','GraphQL'],[['4.9★','App rating'],['250k','Active users']]],
-];
-const why=[
- ['Senior-only','No juniors learning on your budget. Every engineer is battle-tested.'],
- ['Design-led','We treat design as engineering. Pixels and performance, equally obsessed.'],
- ['Fast & honest','Tight feedback loops, transparent timelines, zero surprises.'],
- ['Built to scale','Architecture decisions made for year three, not just launch day.'],
-];
-const testi=[
- ['Deomic shipped in eight weeks what our last agency couldn\'t in eight months. The quality bar is genuinely different.','S','Sara Lindqvist','CTO, Helix'],
- ['They think like product owners, not contractors. Every decision was made with our growth in mind.','M','Marcus Reed','Founder, Nova'],
- ['The most polished engineering team we\'ve worked with. The attention to motion and detail is unreal.','A','Aisha Khan','VP Product, Pulse'],
- ['We came for a website and stayed for a long-term partnership. Rare to find this level of craft.','D','Diego Torres','CEO, Stratos'],
-];
+  <!-- WORK -->
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>Selected work that moved the metrics.</h2>
+        <p>Cinematic products built for real business outcomes.</p>
+      </div>
+      <div class="work" id="workList"></div>
+    </div>
+  </section>
 
-/* render */
-const g=document.getElementById('svcGrid');
-services.forEach((s,i)=>g.insertAdjacentHTML('beforeend',`<div class="svc reveal"><div class="ico">${s[0]}</div><span class="idx">0${i+1}</span><div><h3>${s[1]}</h3><p>${s[2]}</p></div></div>`));
-const w=document.getElementById('workList');
-work.forEach(c=>w.insertAdjacentHTML('beforeend',`<div class="case reveal"><div><span class="case-tag">${c[0]}</span><h3>${c[1]}</h3><p>${c[2]}</p><div class="stack">${c[3].map(t=>`<span>${t}</span>`).join('')}</div><div class="impact">${c[4].map(m=>`<div><b>${m[0]}</b><small>${m[1]}</small></div>`).join('')}</div></div><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="lines"><i></i><i></i><i></i><i></i></div><div class="glowcard"></div></div></div>`));
-const wy=document.getElementById('whyGrid');
-why.forEach((x,i)=>wy.insertAdjacentHTML('beforeend',`<div class="why reveal"><div class="n">0${i+1}</div><h3>${x[0]}</h3><p>${x[1]}</p></div>`));
-const tt=document.getElementById('testiTrack');
-testi.forEach(t=>tt.insertAdjacentHTML('beforeend',`<div class="testi"><div class="stars">★★★★★</div><p>"${t[0]}"</p><div class="who"><div class="av">${t[1]}</div><div><b>${t[2]}</b><small>${t[3]}</small></div></div></div>`));
+  <!-- TECH -->
+  <section id="tech">
+    <div class="wrap orbit-wrap">
+      <div class="orbit reveal">
+        <div class="ring r1"><span class="tech">React</span><span class="tech">Next.js</span><span
+            class="tech">Node</span><span class="tech">TS</span></div>
+        <div class="ring r2"><span class="tech">AWS</span><span class="tech">Docker</span><span
+            class="tech">Postgres</span><span class="tech">Redis</span></div>
+        <div class="ring r3"><span class="tech">OpenAI</span><span class="tech">MongoDB</span><span
+            class="tech">Kubernetes</span><span class="tech">Vercel</span></div>
+        <div class="core">DEOMIC</div>
+      </div>
+      <div class="orbit-copy reveal">
+        <div class="eyebrow">Technology ecosystem</div>
+        <h2>A modern stack, mastered end-to-end.</h2>
+        <p>We don't chase trends — we choose the right tool for durability, speed and scale, then wield it with
+          senior-level depth across the entire pipeline.</p>
+        <div class="tech-tags">
+          <span>React</span><span>Next.js
+            15</span><span>TypeScript</span><span>Node.js</span><span>PostgreSQL</span><span>MongoDB</span><span>AWS</span><span>Docker</span><span>Kubernetes</span><span>Firebase</span><span>GraphQL</span><span>AI
+            APIs</span><span>Three.js</span><span>Terraform</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-/* ---------- cursor ---------- */
-const cur=document.querySelector('.cursor'),dot=document.querySelector('.cursor-dot');
-let cx=0,cy=0,tx=0,ty=0;
-addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;dot.style.left=tx+'px';dot.style.top=ty+'px'});
-(function loop(){cx+=(tx-cx)*.18;cy+=(ty-cy)*.18;cur.style.left=cx+'px';cur.style.top=cy+'px';requestAnimationFrame(loop)})();
-document.querySelectorAll('a,button,.svc,.case,.stat,.why,.testi,.theme-btn').forEach(el=>{
-  el.addEventListener('mouseenter',()=>cur.classList.add('hover'));
-  el.addEventListener('mouseleave',()=>cur.classList.remove('hover'));
-});
+  <!-- WHY -->
+  <section id="why">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>Why teams choose Deomic.</h2>
+        <p>The difference between a vendor and a partner is felt in every sprint.</p>
+      </div>
+      <div class="why-grid" id="whyGrid"></div>
+    </div>
+  </section>
 
-/* ---------- nav + reveal ---------- */
-const nav=document.getElementById('nav');
-addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40));
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>Trusted by founders & enterprise teams.</h2>
+        <p>Long partnerships, not one-off projects.</p>
+      </div>
+      <div class="testi-track reveal" id="testiTrack"></div>
+    </div>
+  </section>
 
-/* ---------- counters ---------- */
-const cio=new IntersectionObserver(es=>es.forEach(e=>{
-  if(!e.isIntersecting)return;const el=e.target,end=+el.dataset.count,suf=el.dataset.suffix||'';let n=0;
-  const t=setInterval(()=>{n+=Math.ceil(end/40);if(n>=end){n=end;clearInterval(t)}el.textContent=n+suf;},28);
-  cio.unobserve(el);
-}),{threshold:.6});
-document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+  <!-- toast notification -->
+  <div class="toast" id="toast"></div>
 
-/* ---------- service spotlight ---------- */
-document.querySelectorAll('.svc').forEach(c=>c.addEventListener('mousemove',e=>{
-  const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px');
-}));
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-box reveal">
+        <div class="eyebrow">Start a project</div>
+        <h2>Let's build something <span class="grad">unforgettable.</span></h2>
 
-/* ---------- theme ---------- */
-document.getElementById('theme').addEventListener('click',()=>document.body.classList.toggle('light'));
+        <!-- ✅ Success state -->
+        <div class="form-success" id="formSuccess">
+          <div class="tick">✦</div>
+          <h3>Brief received.</h3>
+          <p>We'll review your project and get back to you at <strong id="successEmail"></strong> within 24 hours.</p>
+          <button class="btn ghost" onclick="resetForm()" style="margin-top:8px">Send another →</button>
+        </div>
 
-/* ---------- THREE.JS particle field + floating geo ---------- */
-const cv=document.getElementById('scene');
-const renderer=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true});
-renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);
-const scene=new THREE.Scene();
-const cam=new THREE.PerspectiveCamera(70,innerWidth/innerHeight,.1,100);cam.position.z=6;
-// particles
-const N=900,pos=new Float32Array(N*3);
-for(let i=0;i<N*3;i++)pos[i]=(Math.random()-.5)*22;
-const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(pos,3));
-const pm=new THREE.PointsMaterial({size:.028,color:0x8b3dff,transparent:true,opacity:.7});
-const pts=new THREE.Points(pg,pm);scene.add(pts);
-const pts2=new THREE.Points(pg.clone(),new THREE.PointsMaterial({size:.02,color:0xffffff,transparent:true,opacity:.25}));scene.add(pts2);
-// wireframe icosa (logo-inspired sharp geometry)
-const ico=new THREE.Mesh(new THREE.IcosahedronGeometry(1.5,1),new THREE.MeshBasicMaterial({color:0x6a0dff,wireframe:true,transparent:true,opacity:.32}));
-ico.position.set(3.2,.4,-1);scene.add(ico);
-const torus=new THREE.Mesh(new THREE.TorusGeometry(1.1,.02,16,80),new THREE.MeshBasicMaterial({color:0x8b3dff,transparent:true,opacity:.4}));
-torus.position.set(-3.4,-1,-1);scene.add(torus);
-let mx=0,my=0;addEventListener('mousemove',e=>{mx=(e.clientX/innerWidth-.5);my=(e.clientY/innerHeight-.5)});
-let sy=0;addEventListener('scroll',()=>sy=scrollY);
-function render(t){
-  t*=.0004;
-  pts.rotation.y=t*.3;pts.rotation.x=t*.1;
-  pts2.rotation.y=-t*.2;
-  ico.rotation.x=t*.6;ico.rotation.y=t*.8;ico.position.y=.4+Math.sin(t*1.5)*.3;
-  torus.rotation.x=t*.9;torus.rotation.z=t*.5;
-  cam.position.x+=(mx*1.4-cam.position.x)*.04;
-  cam.position.y+=(-my*1.4-cam.position.y)*.04;
-  cam.position.z=6+sy*.0008;
-  cam.lookAt(0,0,0);
-  renderer.render(scene,cam);requestAnimationFrame(render);
-}
-requestAnimationFrame(render);
-addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+        <!-- 📬 Form -->
+        <form class="form" id="contactForm" novalidate>
 
-/* ---------- loader ---------- */
-let p=0;const bar=document.querySelector('.load-bar i'),pct=document.querySelector('.load-pct');
-const li=setInterval(()=>{p+=Math.random()*16;if(p>=100){p=100;clearInterval(li);setTimeout(()=>{
-  document.getElementById('loader').classList.add('done');
-  document.querySelector('.hero').classList.add('ready');
-},350)}bar.style.width=p+'%';pct.textContent=Math.floor(p)+'%';},130);
+          <!-- Web3Forms hidden fields -->
+          <input type="hidden" name="access_key" value="54f8ba9b-9d75-462a-9e4e-9bbd9889fba5">
+          <input type="hidden" name="subject" value="New Project Brief — Deomic Technologies">
+          <input type="hidden" name="from_name" value="Deomic Website">
+          <input type="hidden" name="redirect" value="false">
+          <input type="checkbox" name="botcheck" style="display:none">
 
-/* ---------- Contact form — Web3Forms ---------- */
-function showToast(msg,type='success'){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.className='toast '+type+' show';
-  setTimeout(()=>t.classList.remove('show'),4500);
-}
+          <div class="field" id="f-name">
+            <label for="inp-name">Your name</label>
+            <input id="inp-name" name="name" type="text" placeholder="Jane Doe" autocomplete="name">
+            <span class="err">Name is required</span>
+          </div>
 
-function validateField(id,check){
-  const f=document.getElementById(id);
-  const ok=check(f.querySelector('input,textarea,select'));
-  f.classList.toggle('invalid',!ok);
-  return ok;
-}
+          <div class="field" id="f-email">
+            <label for="inp-email">Email address</label>
+            <input id="inp-email" name="email" type="email" placeholder="jane@company.com" autocomplete="email">
+            <span class="err">Valid email required</span>
+          </div>
 
-function resetForm(){
-  document.getElementById('contactForm').reset();
-  document.getElementById('contactForm').style.display='grid';
-  document.getElementById('formSuccess').classList.remove('show');
-  document.querySelectorAll('.field').forEach(f=>f.classList.remove('invalid'));
-}
+          <div class="field" id="f-budget">
+            <label for="inp-budget">Budget range</label>
+            <select id="inp-budget" name="budget">
+              <option value="" disabled selected>Select range…</option>
+              <option>Under ₹50,000</option>
+              <option>₹50,000 – ₹1,50,000</option>
+              <option>₹1,50,000 – ₹5,00,000</option>
+              <option>₹5,00,000 – ₹15,00,000</option>
+              <option>₹15,00,000+</option>
+            </select>
+            <span class="err">Please select a budget</span>
+          </div>
 
-document.getElementById('contactForm').addEventListener('submit',async function(e){
-  e.preventDefault();
+          <div class="field" id="f-type">
+            <label for="inp-type">Project type</label>
+            <select id="inp-type" name="project_type">
+              <option value="" disabled selected>Select type…</option>
+              <option>Website / Landing page</option>
+              <option>Web application / SaaS</option>
+              <option>Mobile app (iOS / Android)</option>
+              <option>AI integration</option>
+              <option>Cloud architecture</option>
+              <option>UI/UX design system</option>
+              <option>Other</option>
+            </select>
+            <span class="err">Please select a project type</span>
+          </div>
 
-  /* ── validation ── */
-  const nameOk  = validateField('f-name',  el=>el.value.trim().length>1);
-  const emailOk = validateField('f-email', el=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim()));
-  const budgetOk= validateField('f-budget',el=>el.value!=='');
-  const typeOk  = validateField('f-type',  el=>el.value!=='');
-  const msgOk   = validateField('f-msg',   el=>el.value.trim().length>10);
-  if(![nameOk,emailOk,budgetOk,typeOk,msgOk].every(Boolean)){
-    showToast('Please fill all required fields','error');return;
-  }
+          <div class="field full" id="f-msg">
+            <label for="inp-msg">Tell us about your project</label>
+            <textarea id="inp-msg" name="message"
+              placeholder="What are you building? What's the goal? Any timeline?"></textarea>
+            <span class="err">Please tell us about your project</span>
+          </div>
 
-  /* ── submit ── */
-  const btn=document.getElementById('submitBtn');
-  btn.classList.add('loading');
-  btn.disabled=true;
+          <button type="submit" class="btn submit-btn" id="submitBtn">
+            <span class="spinner"></span>
+            <span class="btn-text">Send brief &nbsp;→</span>
+          </button>
 
-  try{
-    const data=new FormData(this);
-    const res=await fetch('https://api.web3forms.com/submit',{
-      method:'POST',
-      body:data
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-top">
+        <div>
+          <a href="#top" class="brand">Deomic<span class="dot"></span></a>
+          <p style="color:var(--ink-dim);font-weight:300;max-width:280px;margin-top:16px;font-size:14px">Engineering the
+            future of software, one premium product at a time.</p>
+        </div>
+        <div class="foot-cols">
+          <div class="foot-col">
+            <h5>Company</h5><a href="#about">About</a><a href="#work">Work</a><a href="#why">Why Us</a><a
+              href="#contact">Contact</a>
+          </div>
+          <div class="foot-col">
+            <h5>Services</h5><a href="#services">Web</a><a href="#services">AI</a><a href="#services">Cloud</a><a
+              href="#services">Mobile</a>
+          </div>
+          <div class="foot-col">
+            <h5>Connect</h5><a href="https://linkedin.com/company/deomictechnologies" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="#">X / Twitter</a><a href="#">GitHub</a><a
+              href="#">Dribbble</a>
+          </div>
+        </div>
+      </div>
+      <div class="foot-bot">
+        <span>© 2026 DEOMIC TECHNOLOGIES — ALL RIGHTS RESERVED</span>
+        <span>DESIGNED & ENGINEERED IN-HOUSE</span>
+      </div>
+      <div class="giant">DEOMIC</div>
+    </div>
+  </footer>
+
+  <script>
+    /* ---------------- data ---------------- */
+    const services = [
+      ['◇', 'Web Development', 'High-performance sites & web apps engineered for speed and scale.'],
+      ['▤', 'Mobile Applications', 'Native-grade iOS & Android experiences from a single codebase.'],
+      ['◈', 'SaaS Platforms', 'Multi-tenant products with billing, auth and analytics built in.'],
+      ['✶', 'AI Integrations', 'LLMs, RAG, agents and ML embedded into real product workflows.'],
+      ['☁', 'Cloud Architecture', 'Resilient, cost-optimized infrastructure that scales on demand.'],
+      ['◐', 'UI/UX Systems', 'Design systems and interfaces that feel premium and convert.'],
+      ['⟳', 'Automation', 'Workflow & process automation that removes operational drag.'],
+      ['▦', 'Enterprise Software', 'Mission-critical systems with security and compliance baked in.'],
+      ['⎇', 'DevOps Solutions', 'CI/CD, observability and IaC for ship-fast, sleep-easy teams.'],
+    ];
+    const work = [
+      ['Non-Profit · Web', 'Richa Cares Global', 'A digital platform for global impact, designed to streamline donations, volunteer coordination, and transparent tracking of NGO initiatives worldwide.', ['Next.js', 'Tailwind CSS', 'Node.js', 'Stripe'], [['300%', 'Donation increase'], ['50+', 'Active campaigns']]],
+      ['Travel · Mobility', 'Tripto Tours', 'An advanced mobility and booking solution for modern travelers, featuring real-time availability, dynamic pricing, and seamless itinerary management.', ['React Native', 'Node.js', 'Postgres', 'AWS'], [['10k+', 'Monthly bookings'], ['4.8★', 'User rating']]],
+      ['Real Estate · Web', 'Ramdev Builders', 'A premium digital showcase for a leading real estate developer, featuring interactive property galleries, virtual tours, and seamless lead generation.', ['Next.js', 'Three.js', 'GSAP', 'Tailwind CSS'], [['150%', 'Lead increase'], ['40+', 'Premium projects']]],
+    ];
+    const why = [
+      ['Senior-only', 'No juniors learning on your budget. Every engineer is battle-tested.'],
+      ['Design-led', 'We treat design as engineering. Pixels and performance, equally obsessed.'],
+      ['Fast & honest', 'Tight feedback loops, transparent timelines, zero surprises.'],
+      ['Built to scale', 'Architecture decisions made for year three, not just launch day.'],
+    ];
+    const testi = [
+      ['Deomic shipped in eight weeks what our last agency couldn\'t in eight months. The quality bar is genuinely different.', 'S', 'Sanjay Gupta', 'CTO, TechVeda'],
+      ['They think like product owners, not contractors. Every decision was made with our growth in mind.', 'M', 'Meera Patel', 'Founder, Navya'],
+      ['The most polished engineering team we\'ve worked with. The attention to motion and detail is unreal.', 'A', 'Arjun Kapoor', 'VP Product, Arogya'],
+      ['We came for a website and stayed for a long-term partnership. Rare to find this level of craft.', 'D', 'Divya Desai', 'CEO, Shikhar'],
+    ];
+
+    /* render */
+    const g = document.getElementById('svcGrid');
+    services.forEach((s, i) => g.insertAdjacentHTML('beforeend', `<div class="svc reveal"><div class="ico">${s[0]}</div><span class="idx">0${i + 1}</span><div><h3>${s[1]}</h3><p>${s[2]}</p></div></div>`));
+    const w = document.getElementById('workList');
+    work.forEach(c => w.insertAdjacentHTML('beforeend', `<div class="case reveal"><div><span class="case-tag">${c[0]}</span><h3>${c[1]}</h3><p>${c[2]}</p><div class="stack">${c[3].map(t => `<span>${t}</span>`).join('')}</div><div class="impact">${c[4].map(m => `<div><b>${m[0]}</b><small>${m[1]}</small></div>`).join('')}</div></div><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="lines"><i></i><i></i><i></i><i></i></div><div class="glowcard"></div></div></div>`));
+    const wy = document.getElementById('whyGrid');
+    why.forEach((x, i) => wy.insertAdjacentHTML('beforeend', `<div class="why reveal"><div class="n">0${i + 1}</div><h3>${x[0]}</h3><p>${x[1]}</p></div>`));
+    const tt = document.getElementById('testiTrack');
+    testi.forEach(t => tt.insertAdjacentHTML('beforeend', `<div class="testi"><div class="stars">★★★★★</div><p>"${t[0]}"</p><div class="who"><div class="av">${t[1]}</div><div><b>${t[2]}</b><small>${t[3]}</small></div></div></div>`));
+
+    /* ---------- cursor ---------- */
+    const cur = document.querySelector('.cursor'), dot = document.querySelector('.cursor-dot');
+    let cx = 0, cy = 0, tx = 0, ty = 0;
+    addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; dot.style.left = tx + 'px'; dot.style.top = ty + 'px' });
+    (function loop() { cx += (tx - cx) * .18; cy += (ty - cy) * .18; cur.style.left = cx + 'px'; cur.style.top = cy + 'px'; requestAnimationFrame(loop) })();
+    document.querySelectorAll('a,button,.svc,.case,.stat,.why,.testi,.theme-btn').forEach(el => {
+      el.addEventListener('mouseenter', () => cur.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cur.classList.remove('hover'));
     });
-    const json=await res.json();
 
-    if(json.success){
-      const email=document.getElementById('inp-email').value.trim();
-      document.getElementById('successEmail').textContent=email;
-      this.style.display='none';
-      document.getElementById('formSuccess').classList.add('show');
-      showToast('Brief sent! We'll be in touch within 24h ✦','success');
-    }else{
-      throw new Error(json.message||'Submission failed');
+    /* ---------- nav + reveal ---------- */
+    const nav = document.getElementById('nav');
+    addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40));
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) } }), { threshold: .15 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    /* ---------- counters ---------- */
+    const cio = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return; const el = e.target, end = +el.dataset.count, suf = el.dataset.suffix || ''; let n = 0;
+      const t = setInterval(() => { n += Math.ceil(end / 40); if (n >= end) { n = end; clearInterval(t) } el.textContent = n + suf; }, 28);
+      cio.unobserve(el);
+    }), { threshold: .6 });
+    document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
+
+    /* ---------- service spotlight ---------- */
+    document.querySelectorAll('.svc').forEach(c => c.addEventListener('mousemove', e => {
+      const r = c.getBoundingClientRect(); c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    }));
+
+    /* ---------- theme ---------- */
+    document.getElementById('theme').addEventListener('click', () => document.body.classList.toggle('light'));
+
+    /* ---------- THREE.JS particle field + floating geo ---------- */
+    const cv = document.getElementById('scene');
+    const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.setSize(innerWidth, innerHeight);
+    const scene = new THREE.Scene();
+    const cam = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, .1, 100); cam.position.z = 6;
+    // particles
+    const N = 900, pos = new Float32Array(N * 3);
+    for (let i = 0; i < N * 3; i++)pos[i] = (Math.random() - .5) * 22;
+    const pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    const pm = new THREE.PointsMaterial({ size: .028, color: 0x8b3dff, transparent: true, opacity: .7 });
+    const pts = new THREE.Points(pg, pm); scene.add(pts);
+    const pts2 = new THREE.Points(pg.clone(), new THREE.PointsMaterial({ size: .02, color: 0xffffff, transparent: true, opacity: .25 })); scene.add(pts2);
+    // wireframe icosa (logo-inspired sharp geometry)
+    const ico = new THREE.Mesh(new THREE.IcosahedronGeometry(1.5, 1), new THREE.MeshBasicMaterial({ color: 0x6a0dff, wireframe: true, transparent: true, opacity: .32 }));
+    ico.position.set(3.2, .4, -1); scene.add(ico);
+    const torus = new THREE.Mesh(new THREE.TorusGeometry(1.1, .02, 16, 80), new THREE.MeshBasicMaterial({ color: 0x8b3dff, transparent: true, opacity: .4 }));
+    torus.position.set(-3.4, -1, -1); scene.add(torus);
+    let mx = 0, my = 0; addEventListener('mousemove', e => { mx = (e.clientX / innerWidth - .5); my = (e.clientY / innerHeight - .5) });
+    let sy = 0; addEventListener('scroll', () => sy = scrollY);
+    function render(t) {
+      t *= .0004;
+      pts.rotation.y = t * .3; pts.rotation.x = t * .1;
+      pts2.rotation.y = -t * .2;
+      ico.rotation.x = t * .6; ico.rotation.y = t * .8; ico.position.y = .4 + Math.sin(t * 1.5) * .3;
+      torus.rotation.x = t * .9; torus.rotation.z = t * .5;
+      cam.position.x += (mx * 1.4 - cam.position.x) * .04;
+      cam.position.y += (-my * 1.4 - cam.position.y) * .04;
+      cam.position.z = 6 + sy * .0008;
+      cam.lookAt(0, 0, 0);
+      renderer.render(scene, cam); requestAnimationFrame(render);
     }
-  }catch(err){
-    console.error(err);
-    showToast('Something went wrong — email us directly at deomictechnologies@gmail.com','error');
-  }finally{
-    btn.classList.remove('loading');
-    btn.disabled=false;
-  }
-});
-</script>
+    requestAnimationFrame(render);
+    addEventListener('resize', () => { cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight) });
+
+    /* ---------- loader ---------- */
+    let p = 0; const bar = document.querySelector('.load-bar i'), pct = document.querySelector('.load-pct');
+    const li = setInterval(() => {
+      p += Math.random() * 16; if (p >= 100) {
+        p = 100; clearInterval(li); setTimeout(() => {
+          document.getElementById('loader').classList.add('done');
+          document.querySelector('.hero').classList.add('ready');
+        }, 350)
+      } bar.style.width = p + '%'; pct.textContent = Math.floor(p) + '%';
+    }, 130);
+
+    /* ---------- Contact form — Web3Forms ---------- */
+    function showToast(msg, type = 'success') {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.className = 'toast ' + type + ' show';
+      setTimeout(() => t.classList.remove('show'), 4500);
+    }
+
+    function validateField(id, check) {
+      const f = document.getElementById(id);
+      const ok = check(f.querySelector('input,textarea,select'));
+      f.classList.toggle('invalid', !ok);
+      return ok;
+    }
+
+    function resetForm() {
+      document.getElementById('contactForm').reset();
+      document.getElementById('contactForm').style.display = 'grid';
+      document.getElementById('formSuccess').classList.remove('show');
+      document.querySelectorAll('.field').forEach(f => f.classList.remove('invalid'));
+    }
+
+    document.getElementById('contactForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      /* ── validation ── */
+      const nameOk = validateField('f-name', el => el.value.trim().length > 1);
+      const emailOk = validateField('f-email', el => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim()));
+      const budgetOk = validateField('f-budget', el => el.value !== '');
+      const typeOk = validateField('f-type', el => el.value !== '');
+      const msgOk = validateField('f-msg', el => el.value.trim().length > 10);
+      if (![nameOk, emailOk, budgetOk, typeOk, msgOk].every(Boolean)) {
+        showToast('Please fill all required fields', 'error'); return;
+      }
+
+      /* ── submit ── */
+      const btn = document.getElementById('submitBtn');
+      btn.classList.add('loading');
+      btn.disabled = true;
+
+      try {
+        const data = new FormData(this);
+        const obj = Object.fromEntries(data.entries());
+
+        let res, json;
+
+        // Attempt secure serverless submission first
+        try {
+          res = await fetch('/api/submit', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify(obj)
+          });
+          json = await res.json();
+          if (!res.ok) throw new Error(json.message || 'Submission failed');
+        } catch (apiErr) {
+          // Fallback for local testing if serverless function is not available (e.g. http-server)
+          const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+          const accessKey = data.get('access_key');
+
+          if (isLocal && accessKey) {
+            console.warn('Serverless endpoint failed or unavailable. Falling back to direct Web3Forms.');
+            res = await fetch('https://api.web3forms.com/submit', {
+              method: 'POST',
+              body: data
+            });
+            json = await res.json();
+            if (!json.success) throw new Error(json.message || 'Submission failed');
+          } else {
+            throw apiErr;
+          }
+        }
+
+        if (json.success) {
+          const email = document.getElementById('inp-email').value.trim();
+          document.getElementById('successEmail').textContent = email;
+          this.style.display = 'none';
+          document.getElementById('formSuccess').classList.add('show');
+          showToast('Brief sent! We\'ll be in touch within 24h ✦', 'success');
+        } else {
+          throw new Error(json.message || 'Submission failed');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Something went wrong — email us directly at deomictechnologies@gmail.com', 'error');
+      } finally {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+      }
+    });
+  </script>
 </body>
+
 </html>

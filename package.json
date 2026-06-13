@@ -1,0 +1,16 @@
+{
+  "name": "deomic-portfolio-backend",
+  "version": "1.0.0",
+  "description": "Secure backend for Deomic Portfolio 2.0 to handle form submissions and send leads to deomictechnologies@gmail.com",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "nodemailer": "^6.9.13"
+  }
+}

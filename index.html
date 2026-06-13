@@ -252,11 +252,29 @@ h1,h2,h3{font-weight:700;letter-spacing:-1.5px;line-height:1.04}
 .form{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:46px;position:relative;max-width:640px}
 .field{position:relative}
 .field.full{grid-column:1/-1}
-.field input,.field textarea{width:100%;background:transparent;border:none;border-bottom:1px solid var(--line);padding:14px 0;color:var(--ink);font-family:var(--sans);font-size:15px;outline:none;transition:border-color .3s}
-.field textarea{resize:none;min-height:60px}
-.field label{font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:1.5px;text-transform:uppercase}
-.field input:focus,.field textarea:focus{border-color:var(--violet)}
-.form .btn{grid-column:1/-1;justify-self:start;margin-top:10px;padding:15px 36px}
+.field input,.field textarea,.field select{width:100%;background:transparent;border:none;border-bottom:1px solid var(--line);padding:14px 0;color:var(--ink);font-family:var(--sans);font-size:15px;outline:none;transition:border-color .3s}
+.field select{appearance:none;-webkit-appearance:none;cursor:pointer}
+.field select option{background:var(--bg);color:var(--ink)}
+.field textarea{resize:none;min-height:80px}
+.field label{display:block;font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:2px}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--violet)}
+.field .err{display:none;font-family:var(--mono);font-size:10px;color:#ff4d4d;letter-spacing:1px;margin-top:5px}
+.field.invalid .err{display:block}
+.field.invalid input,.field.invalid textarea,.field.invalid select{border-color:#ff4d4d}
+.form .submit-btn{grid-column:1/-1;justify-self:start;margin-top:14px;padding:15px 40px;cursor:pointer;display:flex;align-items:center;gap:10px;font-family:var(--sans)}
+.form .submit-btn .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin2 .7s linear infinite;display:none}
+.form .submit-btn.loading .spinner{display:block}
+.form .submit-btn.loading .btn-text{opacity:.6}
+@keyframes spin2{to{transform:rotate(360deg)}}
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-soft);border:1px solid var(--line);border-radius:14px;padding:16px 28px;font-size:14px;font-weight:500;z-index:9000;opacity:0;transition:all .5s cubic-bezier(.16,1,.3,1);pointer-events:none;white-space:nowrap;backdrop-filter:blur(16px)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.success{border-color:var(--violet);box-shadow:0 0 30px var(--violet-glow)}
+.toast.error{border-color:#ff4d4d;box-shadow:0 0 30px rgba(255,77,77,.3)}
+.form-success{display:none;flex-direction:column;align-items:flex-start;gap:18px;padding:40px 0}
+.form-success.show{display:flex}
+.form-success .tick{width:60px;height:60px;border-radius:50%;background:color-mix(in srgb,var(--violet) 20%,transparent);border:1px solid var(--violet);display:grid;place-items:center;font-size:26px;box-shadow:0 0 30px var(--violet-glow)}
+.form-success h3{font-size:28px;font-weight:700;letter-spacing:-1px}
+.form-success p{color:var(--ink-dim);font-weight:300;max-width:400px}
 @media(max-width:620px){.form{grid-template-columns:1fr}}
 
 /* ---------- footer ---------- */
@@ -414,19 +432,86 @@ footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:60px
   </div>
 </section>
 
+<!-- toast notification -->
+<div class="toast" id="toast"></div>
+
 <!-- CONTACT -->
 <section id="contact">
   <div class="wrap">
     <div class="contact-box reveal">
       <div class="eyebrow">Start a project</div>
       <h2>Let's build something <span class="grad">unforgettable.</span></h2>
-      <div class="form">
-        <div class="field"><label>Your name</label><input type="text" placeholder="Jane Doe"></div>
-        <div class="field"><label>Email</label><input type="email" placeholder="jane@company.com"></div>
-        <div class="field full"><label>Project type</label><input type="text" placeholder="SaaS platform, AI product, mobile app…"></div>
-        <div class="field full"><label>Tell us more</label><textarea placeholder="What are you building?"></textarea></div>
-        <a href="#" class="btn" onclick="event.preventDefault();this.textContent='Sent ✓ — we\'ll be in touch'">Send brief &nbsp;→</a>
+
+      <!-- ✅ Success state -->
+      <div class="form-success" id="formSuccess">
+        <div class="tick">✦</div>
+        <h3>Brief received.</h3>
+        <p>We'll review your project and get back to you at <strong id="successEmail"></strong> within 24 hours.</p>
+        <button class="btn ghost" onclick="resetForm()" style="margin-top:8px">Send another →</button>
       </div>
+
+      <!-- 📬 Form -->
+      <form class="form" id="contactForm" novalidate>
+
+        <!-- Web3Forms hidden fields -->
+        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+        <input type="hidden" name="subject" value="New Project Brief — Deomic Technologies">
+        <input type="hidden" name="from_name" value="Deomic Website">
+        <input type="hidden" name="redirect" value="false">
+        <input type="checkbox" name="botcheck" style="display:none">
+
+        <div class="field" id="f-name">
+          <label for="inp-name">Your name</label>
+          <input id="inp-name" name="name" type="text" placeholder="Jane Doe" autocomplete="name">
+          <span class="err">Name is required</span>
+        </div>
+
+        <div class="field" id="f-email">
+          <label for="inp-email">Email address</label>
+          <input id="inp-email" name="email" type="email" placeholder="jane@company.com" autocomplete="email">
+          <span class="err">Valid email required</span>
+        </div>
+
+        <div class="field" id="f-budget">
+          <label for="inp-budget">Budget range</label>
+          <select id="inp-budget" name="budget">
+            <option value="" disabled selected>Select range…</option>
+            <option>Under ₹50,000</option>
+            <option>₹50,000 – ₹1,50,000</option>
+            <option>₹1,50,000 – ₹5,00,000</option>
+            <option>₹5,00,000 – ₹15,00,000</option>
+            <option>₹15,00,000+</option>
+          </select>
+          <span class="err">Please select a budget</span>
+        </div>
+
+        <div class="field" id="f-type">
+          <label for="inp-type">Project type</label>
+          <select id="inp-type" name="project_type">
+            <option value="" disabled selected>Select type…</option>
+            <option>Website / Landing page</option>
+            <option>Web application / SaaS</option>
+            <option>Mobile app (iOS / Android)</option>
+            <option>AI integration</option>
+            <option>Cloud architecture</option>
+            <option>UI/UX design system</option>
+            <option>Other</option>
+          </select>
+          <span class="err">Please select a project type</span>
+        </div>
+
+        <div class="field full" id="f-msg">
+          <label for="inp-msg">Tell us about your project</label>
+          <textarea id="inp-msg" name="message" placeholder="What are you building? What's the goal? Any timeline?"></textarea>
+          <span class="err">Please tell us about your project</span>
+        </div>
+
+        <button type="submit" class="btn submit-btn" id="submitBtn">
+          <span class="spinner"></span>
+          <span class="btn-text">Send brief &nbsp;→</span>
+        </button>
+
+      </form>
     </div>
   </div>
 </section>
@@ -567,6 +652,71 @@ const li=setInterval(()=>{p+=Math.random()*16;if(p>=100){p=100;clearInterval(li)
   document.getElementById('loader').classList.add('done');
   document.querySelector('.hero').classList.add('ready');
 },350)}bar.style.width=p+'%';pct.textContent=Math.floor(p)+'%';},130);
+
+/* ---------- Contact form — Web3Forms ---------- */
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast '+type+' show';
+  setTimeout(()=>t.classList.remove('show'),4500);
+}
+
+function validateField(id,check){
+  const f=document.getElementById(id);
+  const ok=check(f.querySelector('input,textarea,select'));
+  f.classList.toggle('invalid',!ok);
+  return ok;
+}
+
+function resetForm(){
+  document.getElementById('contactForm').reset();
+  document.getElementById('contactForm').style.display='grid';
+  document.getElementById('formSuccess').classList.remove('show');
+  document.querySelectorAll('.field').forEach(f=>f.classList.remove('invalid'));
+}
+
+document.getElementById('contactForm').addEventListener('submit',async function(e){
+  e.preventDefault();
+
+  /* ── validation ── */
+  const nameOk  = validateField('f-name',  el=>el.value.trim().length>1);
+  const emailOk = validateField('f-email', el=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim()));
+  const budgetOk= validateField('f-budget',el=>el.value!=='');
+  const typeOk  = validateField('f-type',  el=>el.value!=='');
+  const msgOk   = validateField('f-msg',   el=>el.value.trim().length>10);
+  if(![nameOk,emailOk,budgetOk,typeOk,msgOk].every(Boolean)){
+    showToast('Please fill all required fields','error');return;
+  }
+
+  /* ── submit ── */
+  const btn=document.getElementById('submitBtn');
+  btn.classList.add('loading');
+  btn.disabled=true;
+
+  try{
+    const data=new FormData(this);
+    const res=await fetch('https://api.web3forms.com/submit',{
+      method:'POST',
+      body:data
+    });
+    const json=await res.json();
+
+    if(json.success){
+      const email=document.getElementById('inp-email').value.trim();
+      document.getElementById('successEmail').textContent=email;
+      this.style.display='none';
+      document.getElementById('formSuccess').classList.add('show');
+      showToast('Brief sent! We'll be in touch within 24h ✦','success');
+    }else{
+      throw new Error(json.message||'Submission failed');
+    }
+  }catch(err){
+    console.error(err);
+    showToast('Something went wrong — email us directly at deomictechnologies@gmail.com','error');
+  }finally{
+    btn.classList.remove('loading');
+    btn.disabled=false;
+  }
+});
 </script>
 </body>
 </html>
